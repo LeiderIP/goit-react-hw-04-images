@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import Searchbar from './Searchbar';
 import ImageGallery from './ImageGallery';
@@ -14,28 +14,26 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const fetchImages = async () => {
+  const fetchImages = useCallback(async () => {
     setIsLoading(true);
     try {
       const response = await axios.get(
         `https://pixabay.com/api/?q=${query}&page=${page}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`
       );
-      const newImages = response.data.hits.filter(
-        image => !images.some(img => img.id === image.id)
-      );
+      const newImages = response.data.hits;
       setImages(prevImages => [...prevImages, ...newImages]);
     } catch (error) {
       console.error('Error fetching images:', error);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [query, page]);
 
   useEffect(() => {
     if (query) {
       fetchImages();
     }
-  }, [query, page]); // Añadir query y page aquí
+  }, [query, page, fetchImages]);
 
   const handleSearch = newQuery => {
     setQuery(newQuery);
