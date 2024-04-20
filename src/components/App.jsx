@@ -5,8 +5,6 @@ import ImageGallery from './ImageGallery';
 import Button from './Button';
 import Modal from './Modal';
 
-const API_KEY = '42456544-e55c7a4295ba52a4d79edc728';
-
 const App = () => {
   const [query, setQuery] = useState('');
   const [images, setImages] = useState([]);
@@ -18,7 +16,7 @@ const App = () => {
     setIsLoading(true);
     try {
       const response = await axios.get(
-        `https://pixabay.com/api/?q=${query}&page=${page}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`
+        `https://pixabay.com/api/?q=${query}&page=${page}&key=42456544-e55c7a4295ba52a4d79edc728&image_type=photo&orientation=horizontal&per_page=12`
       );
       const newImages = response.data.hits.filter(
         image => !images.some(img => img.id === image.id)
