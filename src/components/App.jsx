@@ -54,7 +54,7 @@ const App = () => {
     if (query) {
       fetchImages();
     }
-  }, [query, page]);
+  }, [query, page, fetchImages]);
 
   return (
     <div>
